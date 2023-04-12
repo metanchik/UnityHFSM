@@ -11,6 +11,11 @@
     <img src="https://img.shields.io/npm/v/com.inspiaaa.unityhfsm?label=openupm&amp;registry_uri=https://package.openupm.com" /></a>
 </p>
 
+<h2>What is different in this fork?</h2>
+<p>Added FSM data context to avoid closures in state actions and transition conditions. </p>
+
+---
+
 A simple yet powerful **hierarchical finite state machine** for the Unity game engine. It is scalable and customisable by being **class-based**, but also supports functions (or lambdas) for **fast prototyping**.
 
 Thanks to overloading, it minimises boilerplate code while still supporting **generics**.
