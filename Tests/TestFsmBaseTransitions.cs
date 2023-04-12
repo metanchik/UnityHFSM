@@ -8,14 +8,14 @@ namespace FSM.Tests
 {
 	public class TestTransitions
 	{
-		private Recorder recorder;
-		private StateMachine fsm;
+		private Recorder<int> recorder;
+		private StateMachine<int> fsm;
 
 		[SetUp]
 		public void Setup()
 		{
-			recorder = new Recorder();
-			fsm = new StateMachine();
+			recorder = new Recorder<int>();
+			fsm = new StateMachine<int>(0);
 		}
 
 		/*
@@ -78,7 +78,7 @@ namespace FSM.Tests
 		[Test]
 		public void Test_request_transition_with_a_nested_fsm()
 		{
-			var nested = new StateMachine();
+			var nested = new StateMachine<int>(0);
 			fsm.AddState("A", recorder.Track(nested));
 			fsm.AddState("B", recorder.TrackedState);
 			nested.AddState("A.X", recorder.TrackedState);
@@ -138,7 +138,7 @@ namespace FSM.Tests
 		[Test]
 		public void Test_activating_trigger_of_root_fsm_leads_to_transition_in_nested_fsm()
 		{
-			var nested = new StateMachine();
+			var nested = new StateMachine<int>(0);
 			fsm.AddState("Nested", nested);
 			nested.AddState("A");
 			nested.AddState("B");
@@ -174,7 +174,7 @@ namespace FSM.Tests
 		{
 			// State "A" needs exit time and will not let the fsm transition until a condition is met.
 			bool condition = false;
-			fsm.AddState("A", recorder.Track(new State(
+			fsm.AddState("A", recorder.Track(new State<int>(
 				needsExitTime: true,
 				canExit: state => false,
 				onLogic: state =>
@@ -209,7 +209,7 @@ namespace FSM.Tests
 		public void Test_fsm_transitions_instantly_because_the_active_state_with_exit_time_can_exit()
 		{
 			// State A needs exit time but will instantly let the fsm transition.
-			fsm.AddState("A", recorder.Track(new State(needsExitTime: true, canExit: state => true)));
+			fsm.AddState("A", recorder.Track(new State<int>(needsExitTime: true, canExit: state => true)));
 			fsm.AddState("B", recorder.TrackedState);
 			fsm.AddTransition("A", "B");
 
@@ -227,7 +227,7 @@ namespace FSM.Tests
 		[Test]
 		public void Test_forced_direct_transition_overrides_exit_time()
 		{
-			fsm.AddState("A", new State(needsExitTime: true));
+			fsm.AddState("A", new State<int>(needsExitTime: true));
 			fsm.AddState("B");
 			fsm.AddTransition("A", "B", forceInstantly: true);
 			fsm.Init();
@@ -239,7 +239,7 @@ namespace FSM.Tests
 		public void Test_fsm_transitions_to_correct_pending_state_once_the_active_state_can_exit()
 		{
 			bool condition = false;
-			fsm.AddState("A", new State(
+			fsm.AddState("A", new State<int>(
 				needsExitTime: true,
 				onLogic: state =>
 				{

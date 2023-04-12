@@ -7,7 +7,7 @@ namespace FSM
 	/// <summary>
 	/// Base class of states that should support custom actions.
 	/// </summary>
-	public class ActionState<TStateId, TEvent> : StateBase<TStateId>, IActionable<TEvent>
+	public class ActionState<TData, TStateId, TEvent> : StateBase<TData, TStateId>, IActionable<TEvent>
 	{
 		// Lazy initialized
 		private Dictionary<TEvent, Delegate> actionsByEvent;
@@ -55,7 +55,7 @@ namespace FSM
 		/// <param name="trigger">Name of the action</param>
 		/// <param name="action">Function that should be called when the action is run</param>
 		/// <returns>Itself</returns>
-		public ActionState<TStateId, TEvent> AddAction(TEvent trigger, Action action)
+		public ActionState<TData, TStateId, TEvent> AddAction(TEvent trigger, Action action)
 		{
 			AddGenericAction(trigger, action);
 			// Fluent interface
@@ -71,7 +71,7 @@ namespace FSM
 		/// <param name="action">Function that should be called when the action is run</param>
 		/// <typeparam name="TData">Data type of the parameter of the function</typeparam>
 		/// <returns>Itself</returns>
-		public ActionState<TStateId, TEvent> AddAction<TData>(TEvent trigger, Action<TData> action)
+		public ActionState<TData, TStateId, TEvent> AddAction(TEvent trigger, Action<TData> action)
 		{
 			AddGenericAction(trigger, action);
 			// Fluent interface
@@ -97,7 +97,7 @@ namespace FSM
 			=> TryGetAndCastAction<Action<TData>>(trigger)?.Invoke(data);
 	}
 
-	public class ActionState<TStateId> : ActionState<TStateId, string>
+	public class ActionState<TData, TStateId> : ActionState<TData, TStateId, string>
 	{
 		public ActionState(bool needsExitTime, bool isGhostState = false)
 			: base(needsExitTime: needsExitTime, isGhostState: isGhostState)
@@ -105,7 +105,7 @@ namespace FSM
 		}
 	}
 
-	public class ActionState : ActionState<string, string>
+	public class ActionState<TData> : ActionState<TData, string, string>
 	{
 		public ActionState(bool needsExitTime, bool isGhostState = false)
 			: base(needsExitTime: needsExitTime, isGhostState: isGhostState)

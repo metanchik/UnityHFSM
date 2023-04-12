@@ -5,13 +5,13 @@ namespace FSM
 	/// and "to" states are swapped. Only when the condition of the wrapped transition
 	/// is false does it transition.
 	/// </summary>
-	public class ReverseTransition<TStateId> : TransitionBase<TStateId>
+	public class ReverseTransition<TData, TStateId> : TransitionBase<TData, TStateId>
 	{
-		public TransitionBase<TStateId> wrappedTransition;
+		public TransitionBase<TData, TStateId> wrappedTransition;
 		private bool shouldInitWrappedTransition;
 
 		public ReverseTransition(
-				TransitionBase<TStateId> wrappedTransition,
+				TransitionBase<TData, TStateId> wrappedTransition,
 				bool shouldInitWrappedTransition = true)
 			: base(
 				from: wrappedTransition.to,
@@ -42,10 +42,10 @@ namespace FSM
 		}
 	}
 
-	public class ReverseTransition : ReverseTransition<string>
+	public class ReverseTransition<TData> : ReverseTransition<TData, string>
 	{
 		public ReverseTransition(
-			TransitionBase<string> wrappedTransition,
+			TransitionBase<TData, string> wrappedTransition,
 			bool shouldInitWrappedTransition = true)
 			: base(wrappedTransition, shouldInitWrappedTransition)
 		{

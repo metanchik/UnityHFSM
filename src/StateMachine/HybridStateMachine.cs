@@ -10,11 +10,11 @@ namespace FSM
 	/// duplicate code.
 	/// The HybridStateMachine can also be seen as a StateWrapper around a normal StateMachine.
 	/// </summary>
-	public class HybridStateMachine<TOwnId, TStateId, TEvent> : StateMachine<TOwnId, TStateId, TEvent>
+	public class HybridStateMachine<TData, TOwnId, TStateId, TEvent> : StateMachine<TData, TOwnId, TStateId, TEvent>
 	{
-		private Action<HybridStateMachine<TOwnId, TStateId, TEvent>> onEnter;
-		private Action<HybridStateMachine<TOwnId, TStateId, TEvent>> onLogic;
-		private Action<HybridStateMachine<TOwnId, TStateId, TEvent>> onExit;
+		private Action<HybridStateMachine<TData, TOwnId, TStateId, TEvent>> onEnter;
+		private Action<HybridStateMachine<TData, TOwnId, TStateId, TEvent>> onLogic;
+		private Action<HybridStateMachine<TData, TOwnId, TStateId, TEvent>> onExit;
 
 		public Timer timer;
 
@@ -32,10 +32,11 @@ namespace FSM
 		/// 	exit on a transition (false), or if it should wait until the active state is ready for a
 		/// 	state change (true).</param>
 		public HybridStateMachine(
-				Action<HybridStateMachine<TOwnId, TStateId, TEvent>> onEnter = null,
-				Action<HybridStateMachine<TOwnId, TStateId, TEvent>> onLogic = null,
-				Action<HybridStateMachine<TOwnId, TStateId, TEvent>> onExit = null,
-				bool needsExitTime = false) : base(needsExitTime)
+				TData data, 
+				Action<HybridStateMachine<TData, TOwnId, TStateId, TEvent>> onEnter = null,
+				Action<HybridStateMachine<TData, TOwnId, TStateId, TEvent>> onLogic = null,
+				Action<HybridStateMachine<TData, TOwnId, TStateId, TEvent>> onExit = null,
+				bool needsExitTime = false) : base(data, needsExitTime)
 		{
 			this.onEnter = onEnter;
 			this.onLogic = onLogic;
@@ -67,35 +68,38 @@ namespace FSM
 		}
 	}
 
-	public class HybridStateMachine<TStateId, TEvent> : HybridStateMachine<TStateId, TStateId, TEvent>
+	public class HybridStateMachine<TData, TStateId, TEvent> : HybridStateMachine<TData, TStateId, TStateId, TEvent>
 	{
 		public HybridStateMachine(
-			Action<HybridStateMachine<TStateId, TStateId, TEvent>> onEnter = null,
-			Action<HybridStateMachine<TStateId, TStateId, TEvent>> onLogic = null,
-			Action<HybridStateMachine<TStateId, TStateId, TEvent>> onExit = null,
-			bool needsExitTime = false) : base(onEnter, onLogic, onExit, needsExitTime)
+			TData data, 
+			Action<HybridStateMachine<TData, TStateId, TStateId, TEvent>> onEnter = null,
+			Action<HybridStateMachine<TData, TStateId, TStateId, TEvent>> onLogic = null,
+			Action<HybridStateMachine<TData, TStateId, TStateId, TEvent>> onExit = null,
+			bool needsExitTime = false) : base(data, onEnter, onLogic, onExit, needsExitTime)
 		{
 		}
 	}
 
-	public class HybridStateMachine<TStateId> : HybridStateMachine<TStateId, TStateId, string>
+	public class HybridStateMachine<TData, TStateId> : HybridStateMachine<TData, TStateId, TStateId, string>
 	{
 		public HybridStateMachine(
-			Action<HybridStateMachine<TStateId, TStateId, string>> onEnter = null,
-			Action<HybridStateMachine<TStateId, TStateId, string>> onLogic = null,
-			Action<HybridStateMachine<TStateId, TStateId, string>> onExit = null,
-			bool needsExitTime = false) : base(onEnter, onLogic, onExit, needsExitTime)
+			TData data, 
+			Action<HybridStateMachine<TData, TStateId, TStateId, string>> onEnter = null,
+			Action<HybridStateMachine<TData, TStateId, TStateId, string>> onLogic = null,
+			Action<HybridStateMachine<TData, TStateId, TStateId, string>> onExit = null,
+			bool needsExitTime = false) : base(data, onEnter, onLogic, onExit, needsExitTime)
 		{
 		}
 	}
 
-	public class HybridStateMachine : HybridStateMachine<string, string, string>
+	public class HybridStateMachine<TData> : HybridStateMachine<TData, string, string, string>
 	{
 		public HybridStateMachine(
-			Action<HybridStateMachine<string, string, string>> onEnter = null,
-			Action<HybridStateMachine<string, string, string>> onLogic = null,
-			Action<HybridStateMachine<string, string, string>> onExit = null,
-			bool needsExitTime = false) : base(onEnter, onLogic, onExit, needsExitTime)
+			TData data, 
+			Action<HybridStateMachine<TData, string, string, string>> onEnter = null,
+			Action<HybridStateMachine<TData, string, string, string>> onLogic = null,
+			Action<HybridStateMachine<TData, string, string, string>> onExit = null,
+			bool needsExitTime = false) : base(data, onEnter, onLogic, onExit, needsExitTime)
 		{
 		}
 	}

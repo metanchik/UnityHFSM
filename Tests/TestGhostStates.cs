@@ -6,14 +6,14 @@ namespace FSM.Tests
 {
 	public class TestGhostStates
 	{
-		private Recorder recorder;
-		private StateMachine fsm;
+		private Recorder<int> recorder;
+		private StateMachine<int> fsm;
 
 		[SetUp]
 		public void Setup()
 		{
-			recorder = new Recorder();
-			fsm = new StateMachine();
+			recorder = new Recorder<int>();
+			fsm = new StateMachine<int>(0);
 		}
 
         [Test]
@@ -41,8 +41,8 @@ namespace FSM.Tests
         [Test]
         public void Test_fsm_quickly_transitions_over_ghost_state_for_on_logic() {
             fsm.AddState("A", recorder.TrackedState);
-            fsm.AddState("B", recorder.Track(new StateBase(needsExitTime: false, isGhostState: true)));
-            fsm.AddState("C", recorder.Track(new StateBase(needsExitTime: false, isGhostState: true)));
+            fsm.AddState("B", recorder.Track(new StateBase<int>(needsExitTime: false, isGhostState: true)));
+            fsm.AddState("C", recorder.Track(new StateBase<int>(needsExitTime: false, isGhostState: true)));
             fsm.AddState("D", recorder.TrackedState);
 
             fsm.AddTransition("A", "B");
@@ -70,7 +70,7 @@ namespace FSM.Tests
         public void Test_fsm_respects_needsExitTime_of_ghost_state() {
             fsm.AddState("A", recorder.TrackedState);
             fsm.AddState("B", recorder.Track(
-                new State(needsExitTime: true, isGhostState: false)
+                new State<int>(needsExitTime: true, isGhostState: false)
             ));
             fsm.AddState("C", recorder.TrackedState);
 

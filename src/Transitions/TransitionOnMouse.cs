@@ -4,7 +4,7 @@ namespace FSM
 {
 	public static class TransitionOnMouse
 	{
-		public class Down<TStateId> : TransitionBase<TStateId>
+		public class Down<TData, TStateId> : TransitionBase<TData, TStateId>
 		{
 			private int button;
 
@@ -29,7 +29,7 @@ namespace FSM
 			}
 		}
 
-		public class Release<TStateId> : TransitionBase<TStateId>
+		public class Release<TData, TStateId> : TransitionBase<TData, TStateId>
 		{
 			private int button;
 
@@ -53,7 +53,7 @@ namespace FSM
 			}
 		}
 
-		public class Press<TStateId> : TransitionBase<TStateId>
+		public class Press<TData, TStateId> : TransitionBase<TData, TStateId>
 		{
 			private int button;
 
@@ -77,7 +77,7 @@ namespace FSM
 			}
 		}
 
-		public class Up<TStateId> : TransitionBase<TStateId>
+		public class Up<TData, TStateId> : TransitionBase<TData, TStateId>
 		{
 			private int button;
 
@@ -101,7 +101,7 @@ namespace FSM
 			}
 		}
 
-		public class Down : Down<string>
+		public class Down<TData> : Down<TData, string>
 		{
 			public Down(
 				string @from,
@@ -112,7 +112,7 @@ namespace FSM
 			}
 		}
 
-		public class Release : Release<string>
+		public class Release<TData> : Release<TData, string>
 		{
 			public Release(
 				string @from,
@@ -123,7 +123,7 @@ namespace FSM
 			}
 		}
 
-		public class Press : Press<string>
+		public class Press<TData> : Press<TData, string>
 		{
 			public Press(
 				string @from,
@@ -134,7 +134,7 @@ namespace FSM
 			}
 		}
 
-		public class Up : Up<string>
+		public class Up<TData> : Up<TData, string>
 		{
 			public Up(
 				string @from,

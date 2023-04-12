@@ -5,10 +5,10 @@ namespace FSM
 	/// <summary>
 	/// A class used to determin whether the state machine should transition to another state
 	/// </summary>
-	public class Transition<TStateId> : TransitionBase<TStateId>
+	public class Transition<TData, TStateId> : TransitionBase<TData, TStateId>
 	{
 
-		public Func<Transition<TStateId>, bool> condition;
+		public Func<Transition<TData, TStateId>, bool> condition;
 
 		/// <summary>
 		/// Initialises a new instance of the Transition class
@@ -22,7 +22,7 @@ namespace FSM
 		public Transition(
 				TStateId from,
 				TStateId to,
-				Func<Transition<TStateId>, bool> condition = null,
+				Func<Transition<TData, TStateId>, bool> condition = null,
 				bool forceInstantly = false) : base(from, to, forceInstantly)
 		{
 			this.condition = condition;
@@ -37,12 +37,12 @@ namespace FSM
 		}
 	}
 
-	public class Transition : Transition<string>
+	public class Transition<TData> : Transition<TData, string>
 	{
 		public Transition(
 			string @from,
 			string to,
-			Func<Transition<string>, bool> condition = null,
+			Func<Transition<TData, string>, bool> condition = null,
 			bool forceInstantly = false) : base(@from, to, condition, forceInstantly)
 		{
 		}

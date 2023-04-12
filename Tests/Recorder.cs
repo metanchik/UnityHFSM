@@ -6,7 +6,7 @@ using FSM;
 
 namespace FSM.Tests
 {
-    public class Recorder<TStateId> {
+    public class Recorder<TData, TStateId> {
         private enum StateAction {
             ENTER, LOGIC, EXIT
         }
@@ -63,9 +63,9 @@ namespace FSM.Tests
         }
 
         public class RecorderQuery {
-            private Recorder<TStateId> recorder;
+            private Recorder<TData, TStateId> recorder;
 
-            public RecorderQuery(Recorder<TStateId> recorder) {
+            public RecorderQuery(Recorder<TData, TStateId> recorder) {
                 this.recorder = recorder;
             }
 
@@ -122,17 +122,17 @@ namespace FSM.Tests
         }
 
         private Queue<Event> recordedEvents;
-        private StateWrapper<TStateId, string> tracker;
+        private StateWrapper<TData, TStateId, string> tracker;
 
         // Fluent interface for checking the validity of the recorded events.
         public RecorderQuery Expect => new RecorderQuery(this);
 
         // Creates a new StateBase whose OnEnter / OnLogic / OnExit events are tracked.
-        public StateBase<TStateId> TrackedState => Track(new StateBase<TStateId>(false));
+        public StateBase<TData, TStateId> TrackedState => Track(new StateBase<TData, TStateId>(false));
 
         public Recorder() {
             recordedEvents = new Queue<Event>();
-            tracker = new StateWrapper<TStateId, string>(
+            tracker = new StateWrapper<TData, TStateId, string>(
                 beforeOnEnter: s => RecordEnter(s.name),
                 beforeOnLogic: s => RecordLogic(s.name),
                 beforeOnExit: s => RecordExit(s.name)
@@ -151,7 +151,7 @@ namespace FSM.Tests
         public void RecordTransitionShouldTransition(TStateId from, TStateId to)
             => recordedEvents.Enqueue(new TransitionEvent(from, to, TransitionAction.SHOULD_TRANSITION));
 
-        public StateBase<TStateId> Track(StateBase<TStateId> state) {
+        public StateBase<TData, TStateId> Track(StateBase<TData, TStateId> state) {
             return tracker.Wrap(state);
         }
 
@@ -171,6 +171,6 @@ namespace FSM.Tests
         }
     }
 
-    public class Recorder : Recorder<string> {
+    public class Recorder<TData> : Recorder<TData, string> {
     }
 }

@@ -6,27 +6,27 @@ namespace FSM
 	/// A class that allows you to run additional functions (companion code)
 	/// before and after the wrapped state's code.
 	/// </summary>
-	public class TransitionWrapper<TStateId>
+	public class TransitionWrapper<TData, TStateId>
 	{
-		public class WrappedTransition : TransitionBase<TStateId>
+		public class WrappedTransition : TransitionBase<TData, TStateId>
 		{
-			private Action<TransitionBase<TStateId>>
+			private Action<TransitionBase<TData, TStateId>>
 				beforeOnEnter,
 				afterOnEnter,
 
 				beforeShouldTransition,
 				afterShouldTransition;
 
-			private TransitionBase<TStateId> transition;
+			private TransitionBase<TData, TStateId> transition;
 
 			public WrappedTransition(
-					TransitionBase<TStateId> transition,
+					TransitionBase<TData, TStateId> transition,
 
-					Action<TransitionBase<TStateId>> beforeOnEnter = null,
-					Action<TransitionBase<TStateId>> afterOnEnter = null,
+					Action<TransitionBase<TData, TStateId>> beforeOnEnter = null,
+					Action<TransitionBase<TData, TStateId>> afterOnEnter = null,
 
-					Action<TransitionBase<TStateId>> beforeShouldTransition = null,
-					Action<TransitionBase<TStateId>> afterShouldTransition = null) : base(
+					Action<TransitionBase<TData, TStateId>> beforeShouldTransition = null,
+					Action<TransitionBase<TData, TStateId>> afterShouldTransition = null) : base(
 					transition.from, transition.to, forceInstantly: transition.forceInstantly)
 			{
 				this.transition = transition;
@@ -59,7 +59,7 @@ namespace FSM
 			}
 		}
 
-		private Action<TransitionBase<TStateId>>
+		private Action<TransitionBase<TData, TStateId>>
 			beforeOnEnter,
 			afterOnEnter,
 
@@ -67,11 +67,11 @@ namespace FSM
 			afterShouldTransition;
 
 		public TransitionWrapper(
-				Action<TransitionBase<TStateId>> beforeOnEnter = null,
-				Action<TransitionBase<TStateId>> afterOnEnter = null,
+				Action<TransitionBase<TData, TStateId>> beforeOnEnter = null,
+				Action<TransitionBase<TData, TStateId>> afterOnEnter = null,
 
-				Action<TransitionBase<TStateId>> beforeShouldTransition = null,
-				Action<TransitionBase<TStateId>> afterShouldTransition = null)
+				Action<TransitionBase<TData, TStateId>> beforeShouldTransition = null,
+				Action<TransitionBase<TData, TStateId>> afterShouldTransition = null)
 		{
 			this.beforeOnEnter = beforeOnEnter;
 			this.afterOnEnter = afterOnEnter;
@@ -80,7 +80,7 @@ namespace FSM
 			this.afterShouldTransition = afterShouldTransition;
 		}
 
-		public WrappedTransition Wrap(TransitionBase<TStateId> transition)
+		public WrappedTransition Wrap(TransitionBase<TData, TStateId> transition)
 		{
 			return new WrappedTransition(
 				transition,
@@ -92,14 +92,14 @@ namespace FSM
 		}
 	}
 
-	public class TransitionWrapper : TransitionWrapper<string>
+	public class TransitionWrapper<TData> : TransitionWrapper<TData, string>
 	{
 		public TransitionWrapper(
-			Action<TransitionBase<string>> beforeOnEnter = null,
-			Action<TransitionBase<string>> afterOnEnter = null,
+			Action<TransitionBase<TData, string>> beforeOnEnter = null,
+			Action<TransitionBase<TData, string>> afterOnEnter = null,
 
-			Action<TransitionBase<string>> beforeShouldTransition = null,
-			Action<TransitionBase<string>> afterShouldTransition = null) : base(
+			Action<TransitionBase<TData, string>> beforeShouldTransition = null,
+			Action<TransitionBase<TData, string>> afterShouldTransition = null) : base(
 			beforeOnEnter, afterOnEnter,
 			beforeShouldTransition, afterShouldTransition)
 		{

@@ -6,12 +6,12 @@ namespace FSM
 	/// The "normal" state class that can run code on Enter, on Logic and on Exit,
 	/// while also handling the timing of the next state transition
 	/// </summary>
-	public class State<TStateId, TEvent> : ActionState<TStateId, TEvent>
+	public class State<TData, TStateId, TEvent> : ActionState<TData, TStateId, TEvent>
 	{
-		private Action<State<TStateId, TEvent>> onEnter;
-		private Action<State<TStateId, TEvent>> onLogic;
-		private Action<State<TStateId, TEvent>> onExit;
-		private Func<State<TStateId, TEvent>, bool> canExit;
+		private Action<State<TData, TStateId, TEvent>> onEnter;
+		private Action<State<TData, TStateId, TEvent>> onLogic;
+		private Action<State<TData, TStateId, TEvent>> onExit;
+		private Func<State<TData, TStateId, TEvent>, bool> canExit;
 
 		public ITimer timer;
 
@@ -29,10 +29,10 @@ namespace FSM
 		/// 	exit on a transition (false), or if the state machine should wait until the state is ready for a
 		/// 	state change (true)</param>
 		public State(
-				Action<State<TStateId, TEvent>> onEnter = null,
-				Action<State<TStateId, TEvent>> onLogic = null,
-				Action<State<TStateId, TEvent>> onExit = null,
-				Func<State<TStateId, TEvent>, bool> canExit = null,
+				Action<State<TData, TStateId, TEvent>> onEnter = null,
+				Action<State<TData, TStateId, TEvent>> onLogic = null,
+				Action<State<TData, TStateId, TEvent>> onExit = null,
+				Func<State<TData, TStateId, TEvent>, bool> canExit = null,
 				bool needsExitTime = false,
 				bool isGhostState = false) : base(needsExitTime, isGhostState)
 		{
@@ -70,13 +70,13 @@ namespace FSM
 		}
 	}
 
-	public class State<TStateId> : State<TStateId, string>
+	public class State<TData, TStateId> : State<TData, TStateId, string>
 	{
 		public State(
-			Action<State<TStateId, string>> onEnter = null,
-			Action<State<TStateId, string>> onLogic = null,
-			Action<State<TStateId, string>> onExit = null,
-			Func<State<TStateId, string>, bool> canExit = null,
+			Action<State<TData, TStateId, string>> onEnter = null,
+			Action<State<TData, TStateId, string>> onLogic = null,
+			Action<State<TData, TStateId, string>> onExit = null,
+			Func<State<TData, TStateId, string>, bool> canExit = null,
 			bool needsExitTime = false,
 			bool isGhostState = false)
 			: base(
@@ -90,13 +90,13 @@ namespace FSM
 		}
 	}
 
-	public class State : State<string, string>
+	public class State<TData> : State<TData, string, string>
 	{
 		public State(
-			Action<State<string, string>> onEnter = null,
-			Action<State<string, string>> onLogic = null,
-			Action<State<string, string>> onExit = null,
-			Func<State<string, string>, bool> canExit = null,
+			Action<State<TData, string, string>> onEnter = null,
+			Action<State<TData, string, string>> onLogic = null,
+			Action<State<TData, string, string>> onExit = null,
+			Func<State<TData, string, string>, bool> canExit = null,
 			bool needsExitTime = false,
 			bool isGhostState = false)
 			: base(

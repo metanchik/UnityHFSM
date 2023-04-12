@@ -9,10 +9,10 @@ namespace FSM.Tests
 {
 	public class TestTransitionAfter
 	{
-		private (TransitionAfter transition, TestTimer timer)
-				CreateTransitionAfterWithDelay(float delay, Func<TransitionAfter<string>, bool> condition = null)
+		private (TransitionAfter<int> transition, TestTimer timer)
+				CreateTransitionAfterWithDelay(float delay, Func<TransitionAfter<int, string>, bool> condition = null)
 		{
-			TransitionAfter transition = new TransitionAfter("A", "B", delay: 0.5f, condition: condition);
+			TransitionAfter<int> transition = new TransitionAfter<int>("A", "B", delay: 0.5f, condition: condition);
 			transition.OnEnter();
 			TestTimer timer = new TestTimer();
 			transition.timer = timer;

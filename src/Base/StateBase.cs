@@ -4,13 +4,13 @@ namespace FSM
 	/// <summary>
 	/// The base class of all states
 	/// </summary>
-	public class StateBase<TStateId>
+	public class StateBase<TData, TStateId>
 	{
 		public bool needsExitTime;
 		public bool isGhostState;
 		public TStateId name;
 
-		public IStateMachine<TStateId> fsm;
+		public IStateMachine<TData, TStateId> fsm;
 
 		/// <summary>
 		/// Initialises a new instance of the BaseState class
@@ -71,7 +71,7 @@ namespace FSM
 		}
 	}
 
-	public class StateBase : StateBase<string>
+	public class StateBase<TData> : StateBase<TData, string>
 	{
 		public StateBase(bool needsExitTime, bool isGhostState = false)
 			: base(needsExitTime, isGhostState)

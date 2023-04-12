@@ -9,7 +9,7 @@ namespace FSM
 	/// => An abstraction layer
 	/// </summary>
 	/// <typeparam name="TStateId">They type of the names / ids of the sub states</typeparam>
-	public interface IStateMachine<TStateId>
+	public interface IStateMachine<TData, TStateId>
 	{
 		/// <summary>
 		/// Tells the state machine that, if there is a state transition pending,
@@ -19,7 +19,9 @@ namespace FSM
 
 		void RequestStateChange(TStateId name, bool forceInstantly = false);
 
-		StateBase<TStateId> ActiveState { get; }
+		StateBase<TData, TStateId> ActiveState { get; }
 		TStateId ActiveStateName { get; }
+		
+		TData Data { get; } 
 	}
 }

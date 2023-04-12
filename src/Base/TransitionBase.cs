@@ -4,14 +4,14 @@ namespace FSM
 	/// <summary>
 	/// The base class of all transitions
 	/// </summary>
-	public class TransitionBase<TStateId>
+	public class TransitionBase<TData, TStateId>
 	{
 		public TStateId from;
 		public TStateId to;
 
 		public bool forceInstantly;
 
-		public IStateMachine<TStateId> fsm;
+		public IStateMachine<TData, TStateId> fsm;
 
 		/// <summary>
 		/// Initialises a new instance of the TransitionBase class
@@ -53,7 +53,7 @@ namespace FSM
 		}
 	}
 
-	public class TransitionBase : TransitionBase<string>
+	public class TransitionBase<TData> : TransitionBase<TData, string>
 	{
 		public TransitionBase(string @from, string to, bool forceInstantly = false) : base(@from, to, forceInstantly)
 		{

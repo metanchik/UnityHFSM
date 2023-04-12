@@ -9,20 +9,20 @@ namespace FSM.Tests
 {
 	public class TestStartUp
 	{
-		private Recorder recorder;
-		private StateMachine fsm;
+		private Recorder<int> recorder;
+		private StateMachine<int> fsm;
 
 		[SetUp]
 		public void Setup()
 		{
-			recorder = new Recorder();
-			fsm = new StateMachine();
+			recorder = new Recorder<int>();
+			fsm = new StateMachine<int>(0);
 		}
 
 		[Test]
 		public void TestStartupEvents()
 		{
-			fsm.AddState("A", recorder.Track(new State()));
+			fsm.AddState("A", recorder.Track(new State<int>()));
 			recorder.Expect.Empty();
 
 			fsm.Init();
@@ -79,7 +79,7 @@ namespace FSM.Tests
 		public void Test_accessing_active_state_before_init_fails()
 		{
 			fsm.AddState("A");
-			StateBase<string> activeState;
+			StateBase<int, string> activeState;
 			Assert.Throws<FSM.Exceptions.StateMachineNotInitializedException>(() => activeState = fsm.ActiveState);
 		}
 

@@ -5,14 +5,14 @@ namespace FSM.Tests
 {
 	public class TesTwoWayTransitions
 	{
-		private Recorder recorder;
-		private StateMachine fsm;
+		private Recorder<int> recorder;
+		private StateMachine<int> fsm;
 
 		[SetUp]
 		public void Setup()
 		{
-			recorder = new Recorder();
-			fsm = new StateMachine();
+			recorder = new Recorder<int>();
+			fsm = new StateMachine<int>(0);
 		}
 
 		[Test]

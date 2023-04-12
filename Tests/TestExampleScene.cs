@@ -9,14 +9,14 @@ namespace FSM.Tests
 {
 	public class TestExampleScene
 	{
-		private Recorder recorder;
-		private StateMachine fsm;
+		private Recorder<int> recorder;
+		private StateMachine<int> fsm;
 
 		[SetUp]
 		public void Setup()
 		{
-			recorder = new Recorder();
-			fsm = new StateMachine();
+			recorder = new Recorder<int>();
+			fsm = new StateMachine<int>(0);
 		}
 
 		[Test]
@@ -27,7 +27,7 @@ namespace FSM.Tests
 			// that controls the beheviour of an Enemy Spy unit in a space game.
 
 			// ExtractIntel state
-			StateMachine extractIntel = new StateMachine();
+			StateMachine<int> extractIntel = new StateMachine<int>(0);
 			extractIntel.AddState("CollectData", recorder.TrackedState);
 			extractIntel.AddState("SendData", recorder.TrackedState);
 
