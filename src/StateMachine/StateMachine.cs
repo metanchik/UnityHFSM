@@ -100,7 +100,7 @@ namespace FSM
 		public StateMachine(TData data, bool needsExitTime = true, bool isGhostState = false)
 			: base(needsExitTime: needsExitTime, isGhostState: isGhostState)
 		{
-			
+			_data = data;
 		}
 
 		/// <summary>
