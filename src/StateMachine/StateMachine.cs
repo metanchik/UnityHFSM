@@ -242,6 +242,14 @@ namespace FSM
 
 			OnEnter();
 		}
+		
+		public void Init(TData data)
+		{
+			if (!IsRootFsm) return;
+
+			_data = data;
+			OnEnter();
+		}
 
 		/// <summary>
 		/// Initialises the state machine and must be called before OnLogic is called.
