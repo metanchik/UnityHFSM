@@ -1,5 +1,6 @@
 {
-    "name": "Tests",
+    "name": "UHFSM.Tests",
+    "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
